@@ -7,6 +7,11 @@
     "prepare": "husky install",
     "build": "rollup -c"
   },
+  "lint-staged": {
+    "src/**/*.{js,ts}": [
+      "eslint --fix --ext .js,.ts"
+    ]
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {

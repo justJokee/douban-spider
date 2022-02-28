@@ -1,12 +1,14 @@
 /// <reference types="node" />
-import http from './src/utils/http'
 
+// 豆瓣用户 'uid'
 export interface userOptionsType {
   uid: string
 }
 
 export interface doubanOptionsType {
   urls: {
+    // 在看的电视
+    movie_do: string
     // 想看的电影
     movie_wish: string
     // 看过的电影
@@ -34,14 +36,19 @@ export interface retMovieType<T = retMovieDataType> {
     totalPage: number
   }
 }
+interface methods {
+  get: string
+  post: string
+}
 
 export default class doubanSpiderType {
-  constructor(options?: userOptionsType)
-  getMovieWish(): Promise
-  getMovieCollect(): Promise
+  constructor(userOptions?: userOptionsType, doubanOptions?: doubanOptionsType)
+  getMovieDo(page: number = 1): Promise<retMovieType>
+  getMovieWish(page: number = 1): Promise<retMovieType>
+  getMovieCollect(page: number = 1): Promise<retMovieType>
+  fetch(method: keyof methods): Promise<string>
   userOptions: userOptionsType
   doubanOptions: doubanOptionsType
-  http: http
 }
 
 // declare const doubanSpider: doubanSpiderType

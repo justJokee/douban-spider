@@ -1,24 +1,25 @@
 import cheerio from 'cheerio'
 import http from './utils/http'
 import { doubanOptionsType, userOptionsType, retMovieType, retMovieDataType } from '../index'
-const userOptions: userOptionsType = {
-  // uid: '173712770'
-  uid: 'tan-mu'
+const userPrivate: userOptionsType = {
+  uid: '173712770'
+  // uid: 'tan-mu'
 }
-const doubanOptions: doubanOptionsType = {
+const doubanPrivate: doubanOptionsType = {
   urls: {
-    movie_wish: 'https://wish',
+    movie_do: 'https://movie.douban.com/people/${uid}/do?start=0&sort=time&rating=all&filter=all&mode=grid',
+    movie_wish: 'https://movie.douban.com/people/${uid}/wish?start=0&sort=time&rating=all&filter=all&mode=grid',
     movie_collect: 'https://movie.douban.com/people/${uid}/collect?start=0&sort=time&rating=all&filter=all&mode=grid'
   }
 }
 class doubanSpider {
-  userOptions: userOptionsType
+  public userOptions: userOptionsType
   public doubanOptions: doubanOptionsType
-  public http
+  private http
   // public cheerio
-  constructor(options: userOptionsType = userOptions) {
-    this.userOptions = Object.assign(userOptions, options)
-    this.doubanOptions = doubanOptions
+  constructor(userOptions: userOptionsType = userPrivate, doubanOptions: doubanOptionsType = doubanPrivate) {
+    this.userOptions = Object.assign(userPrivate, userOptions)
+    this.doubanOptions = Object.assign(doubanPrivate, doubanOptions)
     this.http = new http()
     // this.cheerio = cheerio
   }
@@ -30,15 +31,36 @@ class doubanSpider {
     })
     return res
   }
+  // 获取在看的电视
+  async getMovieDo(page: number = 1) {
+    const start = (page - 1) * 15
+    const url = this.doubanOptions.urls.movie_do
+      .replace('${uid}', this.userOptions.uid)
+      .replace('start=0', `start=${start}`)
+    const res = this.getMovieCommon(url, page)
+    return res
+  }
   // 获取想看的电影
-  async getMovieWish() {}
+  async getMovieWish(page: number = 1) {
+    const start = (page - 1) * 15
+    const url = this.doubanOptions.urls.movie_wish
+      .replace('${uid}', this.userOptions.uid)
+      .replace('start=0', `start=${start}`)
+    const res = this.getMovieCommon(url, page)
+    return res
+  }
   // 获取看过的电影
-  async getMovieCollect(page: number = 1): Promise<retMovieType> {
+  async getMovieCollect(page: number = 1) {
     const start = (page - 1) * 15
     const url = this.doubanOptions.urls.movie_collect
       .replace('${uid}', this.userOptions.uid)
       .replace('start=0', `start=${start}`)
-
+    const res = this.getMovieCommon(url, page)
+    return res
+  }
+  // 获取 在看/想看/已看 电视剧、电影数据
+  // TODO: 增加评论字段
+  async getMovieCommon(url: string, page: number): Promise<retMovieType> {
     const html = await this.fetch(url)
     const $ = cheerio.load(html)
     const view = $('.article .grid-view').children()
@@ -71,7 +93,7 @@ class doubanSpider {
       data,
       page: {
         currentPage: page,
-        totalPage: parseInt(totalPage)
+        totalPage: totalPage ? parseInt(totalPage) : 1
       }
     }
   }

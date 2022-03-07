@@ -68,7 +68,7 @@ console.log('分页数据：', data)
   - getMovieWish(page: number = 1): Promise\<retMovieType\> 获取想看的影视
   - getMovieCollect(page: number = 1): Promise\<retMovieType\> 获取看过的影视
 
-## API-方法 Interface
+## Interface
 
 ```typescript
 interface retMovieType<T = retMovieDataType> {
@@ -91,6 +91,8 @@ interface retMovieDataType {
   }
   // 影视简介
   intro: string
+  // '我'对此电影的评论
+  comment: string | undefined
   rating: {
     // 你的评分
     star: number
@@ -102,7 +104,7 @@ interface retMovieDataType {
 
 ## Others
 
-当在实例化爬虫时，支持传入第二个参数 doubanOptions,如果豆瓣的 url 规则在本工具开发后未经变更，你通常不需要配置此参数，举个栗子：
+1. 当在实例化爬虫时，支持传入第二个参数 doubanOptions,如果豆瓣的 url 规则在本工具开发后未经变更，你通常不需要配置此参数，举个栗子：
 
 默认的,想看的影视资源 url：
 `doubanOptions.urls.movie_wish = 'https://movie.douban.com/people/${uid}/wish?start=0&sort=time&rating=all&filter=all&mode=grid'`
@@ -112,3 +114,7 @@ interface retMovieDataType {
 假如豆瓣只是简单替换了页面的访问 url（内部结构和分页模式保持不变），例如加了一层路径,那么在实例化爬虫时将对应的、新的 url 填入即可：
 
 `doubanOptions.urls.movie_wish = https://movie.douban.com/people/${uid}/hi-look-this-fake-path/wish?start=0&sort=time&rating=all&filter=all&mode=grid'`
+
+2. 由于豆瓣的反爬虫机制，强烈建议在爬取所有数据时，每一页的间隔最好在 30s 左右，间隔太短 IP 极大可能被 ban
+
+3. 本工具仅用作学习交流，请勿恶意使用

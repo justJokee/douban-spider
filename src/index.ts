@@ -2,8 +2,7 @@ import cheerio from 'cheerio'
 import http from './utils/http'
 import { doubanOptionsType, userOptionsType, retMovieType, retMovieDataType } from '../index'
 const userPrivate: userOptionsType = {
-  uid: '173712770'
-  // uid: 'tan-mu'
+  uid: 'tan-mu'
 }
 const doubanPrivate: doubanOptionsType = {
   urls: {
@@ -73,8 +72,12 @@ class doubanSpider {
       item.title = {
         name: $('.info .title a', element).text().replace(/\s+/g, ' ').trim()
       }
+      // 豆瓣链接
+      item.href = $('.info .title a', element).attr('href')
       // 电影基本信息
       item.intro = $('.info .intro', element).text()
+      // ‘我’对电影的评论
+      item.comment = $('.info .comment', element).text()
       // 电影评分及’看过‘的时间
       const ratingReg = /rating(\d+)-t/
       const isStar = ratingReg.test($('.info .date', element).parent().html() as string)

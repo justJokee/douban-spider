@@ -19,6 +19,7 @@ export interface doubanOptionsType {
 export interface retMovieDataType {
   pic: string | undefined
   href: string | undefined
+  comment: string | undefined
   title: {
     name: string
   }

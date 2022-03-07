@@ -1,6 +1,6 @@
 {
   "name": "douban-spider-v",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "豆瓣爬虫",
   "main": "lib/index.js",
   "scripts": {

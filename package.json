@@ -1,7 +1,12 @@
 {
   "name": "douban-spider-v",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "豆瓣爬虫",
+  "homepage": "https://github.com/justJokee/douban-spider#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/justJokee/douban-spider.git"
+  },
   "main": "lib/index.js",
   "scripts": {
     "prepare": "husky install",

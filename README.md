@@ -115,6 +115,6 @@ interface retMovieDataType {
 
 `doubanOptions.urls.movie_wish = https://movie.douban.com/people/${uid}/hi-look-this-fake-path/wish?start=0&sort=time&rating=all&filter=all&mode=grid'`
 
-2. 由于豆瓣的反爬虫机制，强烈建议在爬取所有数据时，每一页的间隔最好在 30s 左右，间隔太短 IP 极大可能被 ban
-
-3. 本工具仅用作学习交流，请勿恶意使用
+2. 由于豆瓣的反爬虫机制，强烈建议在爬取所有数据时，每一页的间隔最好在 30s 左右，间隔太短 IP 极大可能被 ban,你可以在 [这里](https://github.com/justJokee/vue-ssr-blog/blob/master/front/server/utils/schedule.js) 查看一个使用的例子。
+3. 如果喜欢这个小工具，不妨 star 鼓励一下~
+4. 本工具仅用作学习交流，请勿恶意使用
